@@ -3,24 +3,37 @@
     error: string | null;
     data: string[];
   }
-  interface SearchRepositoriesAction{
-    type: 'search_repositories';
+  interface SearchRepositoriesAction {
+    type: ActionType.SEARCH_REPOSITORIES;
   }
-  interface SearchRepositoriesSuccessAction{
-    type: 'search_repositories_success';
+
+  interface SearchRepositoriesSuccessAction {
+    type: ActionType.SEARCH_REPOSITORIES_SUCCESS;
     payload: string[];
   }
-  interface SearchRepositoriesErrorAction{
-    type: 'search_repositories_error';
+
+  interface SearchRepositoriesErrorAction {
+    type: ActionType.SEARCH_REPOSITORIES_ERROR;
     payload: string;
   }
-  const reducer = (state: RepositoriesState, action: SearchRepositoriesAction | SearchRepositoriesSuccessAction | SearchRepositoriesErrorAction) : RepositoriesState=> {
+  type Action = SearchRepositoriesAction | SearchRepositoriesSuccessAction | SearchRepositoriesErrorAction;
+  //Very closely related definition or meaning
+  //Provide all different action types
+  enum ActionType {
+    SEARCH_REPOSITORIES = 'search_repositories',
+    SEARCH_REPOSITORIES_SUCCESS = 'search_repositories_success',
+    SEARCH_REPOSITORIES_ERROR = 'search_repositories_error',
+  }
+  const reducer = (
+      state: RepositoriesState,
+      action: Action
+  ): RepositoriesState => {
     switch (action.type) {
-      case 'search_repositories':
+      case ActionType.SEARCH_REPOSITORIES:
         return { loading: true, error: null, data: [] };
-      case 'search_repositories_success':
+      case ActionType.SEARCH_REPOSITORIES_SUCCESS:
         return { loading: false, error: null, data: action.payload };
-      case 'search_repositories_error':
+      case ActionType.SEARCH_REPOSITORIES_ERROR:
         return { loading: false, error: action.payload, data: [] };
       default:
         return state;
